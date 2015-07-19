@@ -7,3 +7,4 @@
 /pkg/
 /spec/reports/
 /tmp/
+spec/testing_dir/backup_destination

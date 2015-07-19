@@ -20,11 +20,11 @@ module Backuper
     # API
 
     def group(name, &block)
-      @items << Backuper::Items::Group.new(name, &block)
+      @items << ::Backuper::Items::Group.new(name, &block)
     end
 
     def app(name, &block)
-      @items << Backuper::Items::Application.new(name, &block)
+      @items << ::Backuper::Items::Application.new(name, &block)
     end
   end
 end
