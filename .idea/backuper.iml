@@ -14,12 +14,12 @@
       <predefined_log_file id="RUBY_RSPEC" enabled="true" />
       <module name="backuper" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$/spec/testing_dir" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
       <envs />
-      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="true" />
       <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
       <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
         <COVERAGE_PATTERN ENABLED="true">
@@ -45,7 +45,7 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
     </content>
     <orderEntry type="jdk" jdkName="ruby-2.2.2-p95" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

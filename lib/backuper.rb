@@ -1,5 +1,5 @@
-require "backuper/version"
 
 module Backuper
-  # Your code goes here...
+  require 'backuper/version'
+  require 'backuper/file_operations'
 end

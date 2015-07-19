@@ -3,12 +3,12 @@
     <predefined_log_file id="RUBY_RSPEC" enabled="true" />
     <module name="backuper" />
     <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-    <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
+    <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$/spec/testing_dir" />
     <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
     <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
     <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
     <envs />
-    <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+    <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="true" />
     <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
     <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
       <COVERAGE_PATTERN ENABLED="true">

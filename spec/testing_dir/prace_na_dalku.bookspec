@@ -1,0 +1,85 @@
+
+Epuber::Book.new do |book|
+
+  book.title = 'Práce na dálku'
+  book.subtitle = 'Zn.: Kancelář zbytečná'
+  book.authors = [
+    'Jason Fried',
+    'David Heinemeier Hansson',
+  ]
+
+  book.language = 'cs'
+  book.print_isbn = '978-80-87270-98-0'
+  book.isbn = '978-80-87270-98-2'
+  book.published = '2014-06-10'
+
+  book.version = '1.0.1'
+  book.build_version = '5'
+
+  book.cover_image = 'cover'
+
+  book.target :ibooks do |t|
+    t.add_const 'restart_store_url', 'https://itunes.apple.com/cz/book/restart/id490604028?mt=11'
+    t.custom_fonts = true
+  end
+
+  book.target :play do |t|
+    t.add_const 'restart_store_url', 'https://play.google.com/store/books/details?id=AU5RAQAAQBAJ'
+  end
+
+  book.target :palmknihy do |t|
+    t.epub_version = 2.0
+    t.isbn = '978-80-87270-98-3'
+    t.add_const 'restart_store_url', 'http://melvil.cz/kniha-restart'
+    t.create_mobi = true
+  end
+
+  book.add_default_style 'prace_na_dalku.css'
+  book.add_file 'prace_na_dalku-stylus.styl'
+
+  # add all fonts to result file
+  book.add_files '*.{otf,ttf}'
+
+  book.add_file 'example.js'
+
+  book.toc do |toc, target|
+    toc.file 'cover', :landmark_cover, :landmark_start_page
+    toc.file 'vakat'
+
+    toc.file 'copyright', :landmark_copyright
+
+    if target.name != :ibooks
+      toc.file 'toc', :landmark_toc
+    end
+
+    toc.file 'intro', 'Úvod' # Example of Bade file containing only required data
+
+    toc.file 's01', 'NADEŠEL ČAS PRO PRÁCI NA DÁLKU' do # Example of full Bade file containing all required XHTML structures
+      toc.file 's01ch01', 'Proč se v práci nepracuje'
+      toc.file 's01ch02', 'Nenechte si ujet život dojížděním'
+      toc.file 's01ch03', 'Jde o technologii'
+    end
+
+    toc.file 's02', 'JAK NA VÝMLUVY' do # Example of full XHTML file containing all required XHTML structures
+      toc.file 's02ch01', 'Zázraky se dějí, jen když jsme všichni společně u toho'
+      toc.file 's02ch02', 'Když je nevidím, jak můžu vědět, jestli pracují?'
+      toc.file 's02ch03', 'Domácnosti jsou plné rozptylování'
+    end
+
+    toc.file 's03', 'JAK SPOLUPRACOVAT NA DÁLKU' do
+      toc.file 's03ch01', 'Bez překrývání to nejde'
+      toc.file 's03ch02', 'Vidět znamená věřit'
+      toc.file 's03ch03', 'Všechny informace na dosah'
+    end
+
+    toc.file 'conclusion', 'Závěr' # Example of XHTML file containing only required data
+
+    toc.file 'footnotes', 'Poznámky pod čarou', linear: false
+  end
+
+  # load file simple_checkers.rb
+  book.use 'simple_checkers.rb'
+
+  # load file simple_transformers.rb with sample transformers
+  book.use 'simple_transformers.rb'
+end
