@@ -1,0 +1,8 @@
+
+app 'Sublime Text 3' do
+  path '~/Library/Application Support/Sublime Text 3/'
+end
+
+group 'Dot files' do
+  path '~/.gitignore'
+end
