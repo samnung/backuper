@@ -4,4 +4,5 @@ module Backuper
   require 'backuper/file_operations'
   require 'backuper/config_file'
   require 'backuper/backuper'
+  require 'backuper/restorer'
 end

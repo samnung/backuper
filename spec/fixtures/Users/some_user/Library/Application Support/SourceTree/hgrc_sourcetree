@@ -1,0 +1,33 @@
+[extensions]
+transplant=
+hgext.fetch=
+hgext.extdiff=
+rebase=
+hgext.mq=
+hgext.hgsubversion=/opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/mercurial_local/hgext/hgsubversion
+hgext.gpg=
+hgext.hgattic=/opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/mercurial_local/hgext/hgattic/attic.py
+hgext.hgflow=/opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/mercurial_local/hgext/hgflow.py
+sourcetree_auth=/opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/mercurial_local/hgext/sourcetree_hg_auth.py
+progress=
+sourcetree_checklink=/opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/mercurial_local/hgext/sourcetree_hg_checklink.py
+[diff]
+git=True
+[ui]
+username=Roman Kříž <samnung@gmail.com>
+ignore=/Users/samnung/.hgignore_global
+commitsubrepos=no
+[merge-tools]
+sourcetreemerge.gui=False
+sourcetreebulkmerge.gui=False
+sourcetreemerge.binary=False
+sourcetreebulkmerge.executable=/opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/hg-merge.sh
+sourcetreemerge.args=$local $other -ancestor $base -merge $output
+sourcetreemerge.checkconflicts=True
+sourcetreemerge.premerge=True
+sourcetreebulkmerge.premerge=False
+sourcetreemerge.executable=/opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/opendiff-w.sh
+sourcetreebulkmerge.binary=True
+[extdiff]
+cmd.sourcetreediff=opendiff
+opts.sourcetreediff=

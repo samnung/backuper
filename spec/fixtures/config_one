@@ -1,6 +1,6 @@
 
-app 'Sublime Text 3' do
-  path '~/Library/Application Support/Sublime Text 3/'
+app 'SourceTree' do
+  path '~/Library/Application Support/SourceTree'
 end
 
 group 'Dot files' do

@@ -1,5 +1,6 @@
 
 require 'yaml'
+require 'claide'
 require_relative 'file_operations'
 
 
@@ -25,6 +26,8 @@ module Backuper
       copied = []
 
       @config.items.each do |item|
+        puts "Backing up #{item.name}"
+
         item.paths.each do |requirement_path|
           abs_requirement_path = File.expand_path(requirement_path)
 
@@ -40,10 +43,13 @@ module Backuper
             FileUtils.mkdir_p(File.dirname(dest_path))
 
             begin
+              print "  Copying #{path} ... "
               copy_item(path, dest_path)
+              puts 'Success'.ansi.green
+
               copied << path
             rescue NotExistingFile => e
-              puts "Skipping file #{path}"
+              puts 'Skipping'.ansi.yellow
             end
           end
         end
@@ -54,7 +60,7 @@ module Backuper
           copied_paths: copied,
       }
 
-      File.write(File.join(destination_path, 'info.yaml'), info.to_yaml)
+      File.write(File.join(destination_path, 'backuper_info.yaml'), info.to_yaml)
     end
   end
 end
