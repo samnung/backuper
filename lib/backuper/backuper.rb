@@ -22,6 +22,8 @@ module Backuper
 
       raise "Can only operate on empty or non-existing directory! Directory #{destination_path} contains: #{dest_contents}" unless dest_contents.empty?
 
+      copied = []
+
       @config.items.each do |item|
         item.paths.each do |requirement_path|
           abs_requirement_path = File.expand_path(requirement_path)
@@ -37,22 +39,19 @@ module Backuper
 
             FileUtils.mkdir_p(File.dirname(dest_path))
 
-            if !File.exist?(path)
+            begin
+              copy_item(path, dest_path)
+              copied << path
+            rescue NotExistingFile => e
               puts "Skipping file #{path}"
-            elsif File.directory?(path)
-              copy_directory(path, dest_path)
-            elsif File.file?(path)
-              copy_file(path, dest_path)
-            else
-              raise StandardError, "Unknown file type for path #{path}"
             end
           end
         end
       end
 
       info = {
-          home: ENV['HOME'],
-          user: ENV['USER']
+          env: ENV.to_hash,
+          copied_paths: copied,
       }
 
       File.write(File.join(destination_path, 'info.yaml'), info.to_yaml)

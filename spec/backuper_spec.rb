@@ -12,7 +12,7 @@ describe Backuper do
     old = 'prace_na_dalku.bookspec'
     new = 'prace_na_dalku---copy.bookspec'
 
-    copy_file(old, new)
+    copy_item(old, new)
 
     at_exit {
       FileUtils.rm(new)

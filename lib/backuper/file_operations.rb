@@ -1,17 +1,24 @@
 
 module Backuper
   module FileOperations
+    class NotExistingFile < ::StandardError; end
+    class UnknownFileType < ::StandardError; end
+
     # Method to copy file and keep same informations (owner, mtime, ...) as original file
     #
-    # @param old_path [String|Array<String>]
-    # @param new_path [String]
+    # @param src [String]
+    # @param dest [String]
     #
-    def copy_file(old_path, new_path)
-      FileUtils.cp(old_path, new_path, preserve: true)
-    end
-
-    def copy_directory(old_path, new_path)
-      FileUtils.cp_r(old_path, File.dirname(new_path), preserve: true)
+    def copy_item(src, dest)
+      if !File.exist?(src)
+        raise NotExistingFile, "Unknown file type for source #{src}"
+      elsif File.directory?(src)
+        FileUtils.cp_r(src, File.dirname(dest), preserve: true)
+      elsif File.file?(src)
+        FileUtils.cp(src, dest, preserve: true)
+      else
+        raise UnknownFileType, "Unknown file type for source #{src}"
+      end
     end
   end
 end
