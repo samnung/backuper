@@ -1,41 +1,55 @@
 # Backuper
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/backuper`. To experiment with that code, run `bin/console` for an interactive prompt.
+Backuper is simple tool to backup all files to some external hard drive and restoring with only four commands.
 
-TODO: Delete this and the text above, and describe your gem
+```bash
+sudo gem install backuper
+backuper backup /Volumes/Fry/Backup-2015-07-22
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'backuper'
+# ... and on another machine
+sudo gem install backuper
+backuper restore /Volumes/Fry/Backup-2015-07-22
 ```
 
-And then execute:
+Backuper is designed to work on OS X and theoretically should work on Linux too.
 
-    $ bundle
 
-Or install it yourself as:
+## Motivation
 
-    $ gem install backuper
+I hate [mackup](https://github.com/lra/mackup) because of creating links to Dropbox or any other place and I am not big fan of Python.
 
-## Usage
+I hate [Time Machine](https://en.wikipedia.org/wiki/Time_Machine_(OS_X)) because of backing up all files instead of specific ones (so when you want to reinstall to resolve some problems it doesn't work).
 
-TODO: Write usage instructions here
+So I've created simple tool but with possibility to be powerfull in near future.
 
-## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+## Configuration file
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Core of this tool is text file containing all files and directories should be backed up. There is no magic YAML, JSON, Config files with strange structure. Files uses Ruby syntax to define applications, their preferences and other valuable files. File must be located in home folder, exactly `~/.backuper/config.rb`. Here is simple example of this tool can do:
 
-## Contributing
+```ruby
+group 'Dot files' do
+    path '~/.zprofile'
+    path '~/.zshrc'
+    # ...
+    path '~/.git*' # everything starting with '.git' in home folder
+end
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/backuper. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+app 'Sublime Text 3' do
+  path '~/Library/Application Support/Sublime Text 3/'
+  # ...
+end
+
+app 'Xcode' do
+    path '~/Library/Developer/Xcode/UserData/CodeSnippets/'
+    path '~/Library/Developer/Xcode/UserData/FontAndColorThemes/'
+    # ...
+end
+```
+
+`group` and `app` is same for now. Both supports adding path to files or folders to be backed up. You can also use wildcard expressions same as [`Dir.glob`](http://ruby-doc.org/core-2.2.0/Dir.html#method-c-glob) supports.
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+The tool is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
