@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+lib = File.expand_path('../lib', File.dirname(__FILE__))
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'bundler/setup'
+require 'backuper'
+require 'gli'
+
+include GLI::App
+
+program_desc 'Tool to backup and restore files.'
+
+
+on_error do |e|
+  $stderr.puts "#{e.message}".red
+end
+
+
+# ----------------------- backup -----------------------------------
+
+desc 'Backup all files to destination'
+arg :destination_path
+
+command :backup do |c|
+  # c.desc 'Path to configuration file'
+  # c.flag :c, :conf
+
+  c.action do |global_options,options,args|
+    help_now! 'Specify at least one destination path' if args.size == 0
+    help_now! 'Specify only one destination path' if args.size > 1
+
+    config_file_path = File.join(ENV['HOME'], '.backuper/config')
+    help_now! 'Missing configuration file at ~/.backuper/config' unless File.file?(config_file_path)
+
+    backuper = Backuper::Backuper.new(Backuper::ConfigFile.new(config_file_path))
+    backuper.backup(args.first)
+  end
+end
+
+
+
+# ---------------------------------------------------------
+
+exit run(ARGV)
