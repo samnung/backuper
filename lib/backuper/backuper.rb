@@ -45,11 +45,11 @@ module Backuper
             begin
               print "  Copying #{path} ... "
               copy_item(path, dest_path)
-              puts 'Success'.ansi.green
+              puts 'Success'.green
 
               copied << path
             rescue NotExistingFile => e
-              puts 'Skipping'.ansi.yellow
+              puts 'Skipping'.yellow
             end
           end
         end
