@@ -31,7 +31,7 @@ module Backuper
         item.paths.each do |requirement_path|
           abs_requirement_path = File.expand_path(requirement_path)
 
-          paths = if abs_requirement_path.include?('*')
+          paths = if ['*', '{', '}', '[', ']'].any? { |sym| abs_requirement_path.include?(sym) }
                     Dir.glob(abs_requirement_path)
                   else
                     [abs_requirement_path]
