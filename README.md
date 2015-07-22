@@ -1,5 +1,7 @@
 # Backuper
 
+[![Build Status](https://travis-ci.org/samnung/backuper.svg)](https://travis-ci.org/samnung/backuper)
+
 Backuper is simple tool to backup all files to some external hard drive and restoring with only four commands.
 
 ```bash
