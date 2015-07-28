@@ -1,6 +1,7 @@
 
 app 'SourceTree' do
   path '~/Library/Application Support/SourceTree'
+  ignore_path '~/Library/Application Support/SourceTree/ImageCache/**/*'
 end
 
 group 'Dot files' do
