@@ -13,7 +13,7 @@ module Backuper
       if !File.exist?(src)
         raise NotExistingFile, "Unknown file type for source #{src}"
       elsif File.directory?(src)
-        FileUtils.cp_r(src, File.dirname(dest), preserve: true)
+        FileUtils.cp_r(src, dest, preserve: true)
       elsif File.file?(src)
         FileUtils.cp(src, dest, preserve: true)
       else

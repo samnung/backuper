@@ -8,33 +8,19 @@ module Backuper
   class Backuper
     include FileOperations
 
+    # @return [String]
+    #
+    # @warn Value is valid only during method backup, is meant for config files
+    #
+    attr_reader :destination_path
+
     # @param config [Backuper::ConfigFile]
     #
     def initialize(config)
       @config = config
-
     end
 
-    # @param path [String] path to folder
-    #
-    # @return [Array<String>]
-    #
-    def dir_entries(path)
-      entries = Dir.entries(path)
-      entries.delete('.')
-      entries.delete('..')
-      entries
-    end
-
-    # @param source_path [String] path to file/folder
-    #
-    # @return [String]
-    #
-    def destination_path_from(source_path)
-      File.join(@destination_path, 'data', source_path)
-    end
-
-    # Main method to
+    # Main method to back all files from configuration
     #
     # @param destination_path [String] path to folder where should be files stored
     #
@@ -48,10 +34,17 @@ module Backuper
       @paths_to_copy = []
       @destination_path = destination_path
 
+      # run before procs
+      @config.procs[:before_backup].each do |proc|
+        instance_eval &proc
+      end
+
+      # process all items from configuration file
       @config.items.each do |item|
         process_item(item)
       end
 
+      # copy all processed files
       @paths_to_copy.each do |path|
         dest_path = destination_path_from(path)
         dest_dir = File.dirname(dest_path)
@@ -62,15 +55,23 @@ module Backuper
         copy_item(path, dest_path)
       end
 
-      info = {
-          env: ENV.to_hash,
-          copied_paths: @paths_to_copy,
-      }
+      # save info for restorer
+      save_info
 
-      File.write(File.join(@destination_path, 'backuper_info.yaml'), info.to_yaml)
+      # backup config folder
+      copy_item(File.dirname(@config.path), @destination_path)
+      FileUtils.mv(File.join(@destination_path, '.backuper'), File.join(@destination_path, 'config_folder'))
 
+      # run after procs
+      @config.procs[:after_backup].each do |proc|
+        instance_eval &proc
+      end
+
+      @paths_to_copy = nil
       @destination_path = nil
     end
+
+    private
 
     # @param item [Backuper::Items::Group] item to process
     #
@@ -122,9 +123,38 @@ module Backuper
         if ok
           @paths_to_copy << path
         else
-          puts "ignoring path #{path}"
+          # puts "ignoring path #{path}"
         end
       end
+    end
+
+    # @param path [String] path to folder
+    #
+    # @return [Array<String>]
+    #
+    def dir_entries(path)
+      entries = Dir.entries(path)
+      entries.delete('.')
+      entries.delete('..')
+      entries
+    end
+
+    # @param source_path [String] path to file/folder
+    #
+    # @return [String]
+    #
+    def destination_path_from(source_path)
+      File.join(@destination_path, 'data', source_path)
+    end
+
+    def save_info
+      info = {
+          env: ENV.to_hash,
+          copied_paths: @paths_to_copy,
+          orig_config_path: @config.path,
+      }
+
+      File.write(File.join(@destination_path, 'backuper_info.yaml'), info.to_yaml)
     end
   end
 end

@@ -2,7 +2,7 @@ require_relative 'spec_helper'
 
 describe Backuper::ConfigFile do
   it 'can load config file' do
-    config_file = Backuper::ConfigFile.new(spec_path('fixtures/config_one'))
+    config_file = Backuper::ConfigFile.new(spec_path('fixtures/Users/some_user/.backuper/config.rb'))
     expect(config_file.items.size).to eq 2
 
     app_config = config_file.items[0]

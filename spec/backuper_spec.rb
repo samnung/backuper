@@ -30,7 +30,7 @@ describe Backuper do
     ENV['USER'] = 'some_user'
     ENV['HOME'] = spec_path('fixtures/Users/some_user')
 
-    backuper = Backuper::Backuper.new(Backuper::ConfigFile.new(spec_path('fixtures/config_one')))
+    backuper = Backuper::Backuper.new(Backuper::ConfigFile.new(spec_path('fixtures/Users/some_user/.backuper/config.rb')))
     backuper.backup(dest)
 
     restorer = Backuper::Restorer.new(dest)
