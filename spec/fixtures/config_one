@@ -1,4 +1,7 @@
 
+ignore_path '**/.DS_Store'
+
+
 app 'SourceTree' do
   path '~/Library/Application Support/SourceTree'
   ignore_path '~/Library/Application Support/SourceTree/ImageCache/**/*'

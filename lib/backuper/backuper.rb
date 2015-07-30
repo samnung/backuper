@@ -113,12 +113,16 @@ module Backuper
           process_path(File.expand_path(subitem, path))
         end
       elsif File.file?(path)
-        ok = @current_item.ignored_paths.all? do |ignore_path|
+        ignored_paths = @config.ignored_paths + @current_item.ignored_paths
+
+        ok = ignored_paths.all? do |ignore_path|
           !File.fnmatch(File.expand_path(ignore_path), path, File::FNM_PATHNAME)
         end
 
         if ok
           @paths_to_copy << path
+        else
+          puts "ignoring path #{path}"
         end
       end
     end

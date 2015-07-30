@@ -4,15 +4,20 @@ require_relative 'items/application'
 
 module Backuper
   class ConfigFile
-    # @return [Array<Backuper::Items::Application>]
+    # @return [Array<Backuper::Items::Group>]
     #
     attr_reader :items
+
+    # @return [Array<String>]
+    #
+    attr_reader :ignored_paths
 
     # @param path [String] path to configuration file
     #
     def initialize(path)
       @path = path
       @items = []
+      @ignored_paths = []
 
       instance_eval(File.read(path), path)
     end
@@ -25,6 +30,10 @@ module Backuper
 
     def app(name, &block)
       @items << ::Backuper::Items::Application.new(name, &block)
+    end
+
+    def ignore_path(path)
+      @ignored_paths << path
     end
   end
 end
