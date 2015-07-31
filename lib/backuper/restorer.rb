@@ -19,11 +19,11 @@ module Backuper
 
     def restore
       # load saved information from YAML
-      @info = YAML.load(File.read(File.join(@source_path, 'backuper_info.yaml')))
+      @info = YAML.load(File.read(File.join(@source_path, BACKUP_INFO_BASE_PATH)))
       @orig_home_path = @info[:env]['HOME']
 
       # load config file
-      config = ConfigFile.new(File.join(@source_path, 'config_folder', 'config.rb'))
+      config = ConfigFile.new(backup_config_file_path(@source_path))
 
       # run before procs
       config.procs[:before_restore].each do |proc|
@@ -33,7 +33,7 @@ module Backuper
       # restore all files
       @info[:copied_paths].each do |src|
         dest = destination_path_from_original(src)
-        src = File.join(@source_path, 'data', src)
+        src = File.join(@source_path, BACKUP_DATA_BASE_PATH, src)
 
         FileUtils.rmtree(dest) if File.exist?(dest)
 

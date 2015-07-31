@@ -10,29 +10,27 @@ module Backuper
 
     # @return [String]
     #
-    # @warn Value is valid only during method backup, is meant for config files
-    #
     attr_reader :destination_path
 
-    # @param config [Backuper::ConfigFile]
+    # @param config_path [String]
     #
-    def initialize(config)
-      @config = config
+    def initialize(config_path, destination_path)
+      @config = ConfigFile.new(config_path)
+      @destination_path = destination_path
     end
 
     # Main method to back all files from configuration
     #
-    # @param destination_path [String] path to folder where should be files stored
-    #
-    def backup(destination_path)
-      FileUtils.mkdir_p(destination_path)
+    def backup
+      FileUtils.mkdir_p(@destination_path)
 
-      dest_contents = dir_entries(destination_path)
+      dest_contents = dir_entries(@destination_path)
 
-      raise "Can only operate on empty or non-existing directory! Directory #{destination_path} contains: #{dest_contents}" unless dest_contents.empty?
+      unless dest_contents.empty?
+        raise "Can only operate on empty or non-existing directory! Directory #{@destination_path} contains: #{dest_contents}"
+      end
 
       @paths_to_copy = []
-      @destination_path = destination_path
 
       # run before procs
       @config.procs[:before_backup].each do |proc|
@@ -60,7 +58,7 @@ module Backuper
 
       # backup config folder
       copy_item(File.dirname(@config.path), @destination_path)
-      FileUtils.mv(File.join(@destination_path, '.backuper'), File.join(@destination_path, 'config_folder'))
+      FileUtils.mv(File.join(@destination_path, CONFIG_FOLDER_BASE_PATH), File.join(@destination_path, BACKUP_CONFIG_FOLDER_BASE_PATH))
 
       # run after procs
       @config.procs[:after_backup].each do |proc|
@@ -68,7 +66,6 @@ module Backuper
       end
 
       @paths_to_copy = nil
-      @destination_path = nil
     end
 
     private
@@ -144,7 +141,7 @@ module Backuper
     # @return [String]
     #
     def destination_path_from(source_path)
-      File.join(@destination_path, 'data', source_path)
+      File.join(@destination_path, BACKUP_DATA_BASE_PATH, source_path)
     end
 
     def save_info
@@ -154,7 +151,7 @@ module Backuper
           orig_config_path: @config.path,
       }
 
-      File.write(File.join(@destination_path, 'backuper_info.yaml'), info.to_yaml)
+      File.write(File.join(@destination_path, BACKUP_INFO_BASE_PATH), info.to_yaml)
     end
   end
 end
