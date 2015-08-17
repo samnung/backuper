@@ -1,6 +1,9 @@
 
 require 'yaml'
 require_relative 'file_operations'
+require_relative 'constants'
+
+include Backuper::Constants
 
 
 module Backuper
