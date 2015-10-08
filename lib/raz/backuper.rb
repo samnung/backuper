@@ -5,7 +5,7 @@ require_relative 'file_operations'
 require_relative 'entries'
 
 
-module Backuper
+module Raz
   class Backuper
     # @return [String]
     #
@@ -71,7 +71,7 @@ module Backuper
 
     private
 
-    # @param item [Backuper::Items::Group] item to process
+    # @param item [Raz::Items::Group] item to process
     #
     def process_item(item)
       @current_item = item

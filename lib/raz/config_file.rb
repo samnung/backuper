@@ -2,14 +2,14 @@
 require_relative 'items/group'
 require_relative 'items/application'
 
-module Backuper
+module Raz
   class ConfigFile
 
     # @return [String]
     #
     attr_reader :path
 
-    # @return [Array<Backuper::Items::Group>]
+    # @return [Array<Raz::Items::Group>]
     #
     attr_reader :items
 
@@ -39,11 +39,11 @@ module Backuper
     # API
 
     def group(name, &block)
-      @items << ::Backuper::Items::Group.new(name, &block)
+      @items << Raz::Items::Group.new(name, &block)
     end
 
     def app(name, &block)
-      @items << ::Backuper::Items::Application.new(name, &block)
+      @items << Raz::Items::Application.new(name, &block)
     end
 
     def ignore_path(path)

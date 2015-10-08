@@ -1,19 +1,19 @@
-# Backuper
+# Raz
 
 [![Build Status](https://travis-ci.org/samnung/backuper.svg)](https://travis-ci.org/samnung/backuper)
 
-Backuper is simple tool to backup all files to some external hard drive and restoring with only four commands.
+Raz is simple tool to backup all files to some external hard drive and restoring with only four commands.
 
 ```bash
-sudo gem install backuper
-backuper backup /Volumes/Fry/Backup-2015-07-22
+sudo gem install raz
+raz backup /Volumes/Fry/Backup-2015-07-22
 
 # ... and on another machine
-sudo gem install backuper
-backuper restore /Volumes/Fry/Backup-2015-07-22
+sudo gem install raz
+raz restore /Volumes/Fry/Backup-2015-07-22
 ```
 
-Backuper is designed to work on OS X and theoretically should work on Linux too.
+Raz is designed to work on OS X and theoretically should work on Linux too.
 
 
 ## Motivation
@@ -27,7 +27,7 @@ So I've created simple tool but with possibility to be powerfull in near future.
 
 ## Configuration file
 
-Core of this tool is text file containing all files and directories should be backed up. There is no magic YAML, JSON, Config files with strange structure. Files uses Ruby syntax to define applications, their preferences and other valuable files. File must be located in home folder, exactly `~/.backuper/config.rb`. Here is simple example of this tool can do:
+Core of this tool is text file containing all files and directories should be backed up. There is no magic YAML, JSON, Config files with strange structure. Files uses Ruby syntax to define applications, their preferences and other valuable files. File must be located in home folder, exactly `~/.raz/config.rb`. Here is simple example of this tool can do:
 
 ```ruby
 group 'Dot files' do

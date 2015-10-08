@@ -1,5 +1,5 @@
 
-module Backuper
+module Raz
   module FileOperations
     class NotExistingFile < ::StandardError; end
     class UnknownFileType < ::StandardError; end

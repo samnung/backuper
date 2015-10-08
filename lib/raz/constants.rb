@@ -1,7 +1,7 @@
 
-module Backuper
+module Raz
   module Constants
-    CONFIG_FOLDER_BASE_PATH = '.backuper'
+    CONFIG_FOLDER_BASE_PATH = '.raz'
     CONFIG_FILE_BASE_PATH = File.join(CONFIG_FOLDER_BASE_PATH, 'config.rb')
 
     def config_path(home = Dir.home)
@@ -17,6 +17,6 @@ module Backuper
     end
 
     BACKUP_DATA_BASE_PATH = 'data'
-    BACKUP_INFO_BASE_PATH = 'backuper_info.yaml'
+    BACKUP_INFO_BASE_PATH = 'raz_info.yaml'
   end
 end

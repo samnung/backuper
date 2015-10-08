@@ -1,7 +1,9 @@
 require_relative 'spec_helper'
 require 'fileutils'
+require 'raz/backuper'
 
-module Backuper
+
+module Raz
   describe Backuper do
     it 'has a version number' do
       expect(VERSION).not_to be nil
@@ -30,7 +32,7 @@ module Backuper
         ENV['USER'] = 'some_user'
         ENV['HOME'] = spec_path('fixtures/Users/some_user')
 
-        backuper = Backuper.new(ConfigFile.new(spec_path('fixtures/Users/some_user/.backuper/config.rb')), dest)
+        backuper = Backuper.new(ConfigFile.new(spec_path('fixtures/Users/some_user/.raz/config.rb')), dest)
         backuper.backup
 
         restorer = Restorer.new(dest)

@@ -1,7 +1,7 @@
 require 'fakefs/spec_helpers'
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'backuper'
+require 'raz'
 
 
 def spec_path(path)

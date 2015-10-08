@@ -1,5 +1,5 @@
 
-module Backuper
+module Raz
   class FileSystem
     # @return [DirEntry]
     #

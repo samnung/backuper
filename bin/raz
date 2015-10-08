@@ -3,7 +3,7 @@
 lib = File.expand_path('../lib', File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'backuper'
+require 'raz'
 require 'gli'
 
 include GLI::App
@@ -30,10 +30,10 @@ command :backup do |c|
     help_now! 'Specify at least one destination path' if args.size == 0
     help_now! 'Specify only one destination path' if args.size > 1
 
-    config_path = Backuper::config_path
-    help_now! "Missing configuration file at #{Backuper::config_path}" unless File.file?(config_path)
+    config_path = Raz::config_path
+    help_now! "Missing configuration file at #{Raz::config_path}" unless File.file?(config_path)
 
-    backuper = Backuper::Backuper.new(Backuper::ConfigFile.new(config_path), args.first)
+    backuper = Raz::Backuper.new(Raz::ConfigFile.new(config_path), args.first)
     backuper.backup
   end
 end
@@ -51,7 +51,7 @@ command :restore do |c|
     help_now! 'Specify at least one source path' if args.size == 0
     help_now! 'Specify only one source path' if args.size > 1
 
-    restorer = Backuper::Restorer.new(args.first)
+    restorer = Raz::Restorer.new(args.first)
     restorer.restore
   end
 end

@@ -3,20 +3,20 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'backuper/version'
+require 'raz/version'
 
 
 Gem::Specification.new do |spec|
-  spec.name          = 'backuper'
-  spec.version       = Backuper::VERSION
+  spec.name          = 'raz'
+  spec.version       = Raz::VERSION
   spec.authors       = ['Roman Kříž']
   spec.email         = ['samnung@gmail.com']
 
   spec.summary       = 'Tool to backup and restore files.'
-  spec.homepage      = 'https://github.com/samnung/backuper'
+  spec.homepage      = 'https://github.com/samnung/raz'
   spec.license       = 'MIT'
 
-  spec.files         = Dir['bin/**/*'] + Dir['lib/**/*.rb'] + %w(backuper.gemspec Gemfile LICENSE.txt README.md)
+  spec.files         = Dir['bin/**/*'] + Dir['lib/**/*.rb'] + %w(raz.gemspec Gemfile LICENSE.txt README.md)
   spec.bindir        = 'bin'
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']

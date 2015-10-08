@@ -3,10 +3,10 @@ require 'yaml'
 require_relative 'file_operations'
 require_relative 'constants'
 
-include Backuper::Constants
+include Raz::Constants
 
 
-module Backuper
+module Raz
   class Restorer
 
     # @return [String]
