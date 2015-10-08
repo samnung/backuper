@@ -20,5 +20,7 @@ module Backuper
         raise UnknownFileType, "Unknown file type for source #{src}"
       end
     end
+
+    module_function :copy_item
   end
 end

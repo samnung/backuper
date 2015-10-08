@@ -7,17 +7,29 @@ require_relative 'entries'
 
 module Backuper
   class Backuper
-    include FileOperations
-
     # @return [String]
     #
     attr_reader :destination_path
 
-    # @param config_path [String]
+    # @return [Array<DirEntry | FileEntry>]
     #
-    def initialize(config_path, destination_path)
-      @config = ConfigFile.new(config_path)
+    attr_reader :parsed_entries
+
+    # @param [Config] config
+    #
+    def initialize(config, destination_path)
+      @config = config
       @destination_path = File.expand_path(destination_path)
+    end
+
+    def investigate
+      @file_system = FileSystem.new
+      @parsed_entries = []
+
+      # process all items from configuration file
+      @config.items.each do |item|
+        process_item(item)
+      end
     end
 
     # Main method to back all files from configuration
@@ -31,17 +43,12 @@ module Backuper
         raise "Can only operate on empty or non-existing directory! Directory #{@destination_path} contains: #{dest_contents}"
       end
 
-      @parsed_entries = []
-
       # run before procs
       (@config.procs[:before_backup] || []).each do |proc|
         instance_eval &proc
       end
 
-      # process all items from configuration file
-      @config.items.each do |item|
-        process_item(item)
-      end
+      investigate if @parsed_entries.nil?
 
       @copied_paths = []
 
@@ -53,7 +60,7 @@ module Backuper
       save_info
 
       # backup config folder
-      copy_item(File.dirname(@config.path), @destination_path)
+      FileOperations.copy_item(File.dirname(@config.path), @destination_path)
       FileUtils.mv(File.join(@destination_path, CONFIG_FOLDER_BASE_PATH), File.join(@destination_path, BACKUP_CONFIG_FOLDER_BASE_PATH))
 
       # run after procs
@@ -109,7 +116,7 @@ module Backuper
     def _process_directory(path)
       return unless File.directory?(path)
 
-      dir = DirEntry.new(File.dirname(path), path)
+      dir = @file_system.add_dir(path)
 
       dir_entries(path).each do |subitem|
         subitem_abs_path = File.join(path, subitem)
@@ -142,7 +149,7 @@ module Backuper
     def _process_file(path)
       return unless File.file?(path)
 
-      FileEntry.new(File.basename(path), path) if _ok_path?(path)
+      @file_system.add_file(path) if _ok_path?(path)
     end
 
     # @param [String] path
@@ -161,12 +168,12 @@ module Backuper
       case entry
       when FileEntry
         puts "Copying file #{src_path}".green
-        copy_item(src_path, dest_path)
+        FileOperations.copy_item(src_path, dest_path)
         @copied_paths << src_path
       when DirEntry
         if entry.recursive_ignored_empty?
           puts "Copying directory #{src_path}".green
-          copy_item(src_path, dest_path)
+          FileOperations.copy_item(src_path, dest_path)
           @copied_paths << src_path
         else
           puts "Start copying all files in directory #{src_path}".green

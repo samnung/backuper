@@ -30,10 +30,10 @@ command :backup do |c|
     help_now! 'Specify at least one destination path' if args.size == 0
     help_now! 'Specify only one destination path' if args.size > 1
 
-    config_file_path = Backuper::config_path
-    help_now! "Missing configuration file at #{Backuper::config_path}" unless File.file?(config_file_path)
+    config_path = Backuper::config_path
+    help_now! "Missing configuration file at #{Backuper::config_path}" unless File.file?(config_path)
 
-    backuper = Backuper::Backuper.new(config_file_path, args.first)
+    backuper = Backuper::Backuper.new(Backuper::ConfigFile.new(config_path), args.first)
     backuper.backup
   end
 end

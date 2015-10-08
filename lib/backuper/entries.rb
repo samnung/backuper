@@ -1,5 +1,51 @@
 
 module Backuper
+  class FileSystem
+    # @return [DirEntry]
+    #
+    attr_reader :root_entry
+
+    def initialize
+      @root_entry = DirEntry.new('/', '/')
+    end
+
+    # @param [String | Array<String>] path  path to folder to create
+    #
+    # @return [DirEntry] dir entry for given path
+    #
+    def make_dir_p(path)
+      components = path.split(File::SEPARATOR).reject(&:empty?)
+
+      current = root_entry
+      components.each do |dir|
+        entry        = current[dir]
+        current[dir] = entry = DirEntry.new(dir, path) if entry.nil?
+        current      = entry
+      end
+
+      current
+    end
+
+    # @param [String] path
+    #
+    # @return [DirEntry]
+    #
+    def add_dir(path)
+      make_dir_p(path)
+    end
+
+    # @param [String] path
+    #
+    # @return [FileEntry]
+    #
+    def add_file(path)
+      entry = make_dir_p(File.dirname(path))
+
+      file_entry = FileEntry.new(File.basename(path), path)
+      entry[File.basename(path)] = file_entry
+    end
+  end
+
   class DirEntry
     # @return [Hash<String, FileEntry | DirEntry>]
     #

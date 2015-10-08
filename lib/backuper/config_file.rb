@@ -23,13 +23,17 @@ module Backuper
 
     # @param path [String] path to configuration file
     #
-    def initialize(path)
+    def initialize(path = nil, &block)
       @path = path
       @items = []
       @ignored_paths = []
       @procs = {}
 
-      instance_eval(File.read(path), path)
+      if block_given?
+        instance_eval(&block)
+      else
+        instance_eval(File.read(path), path)
+      end
     end
 
     # API
