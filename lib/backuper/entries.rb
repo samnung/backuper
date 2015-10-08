@@ -38,6 +38,8 @@ module Backuper
       name == other.name && entries == other.entries
     end
 
+    # @return [Bool]
+    #
     def recursive_ignored_empty?
       return false unless ignored_entries.empty?
 
@@ -46,19 +48,25 @@ module Backuper
       end
     end
 
+    # @return [Hash<String, FileEntry | DirEntry>]
+    #
     def dir_entries
-      entries.select { |e| e.is_a?(DirEntry) }
+      entries.select { |_k, v| v.is_a?(DirEntry) }
     end
 
+    # @return [Hash<String, FileEntry | DirEntry>]
+    #
     def file_entries
-      entries.select { |e| e.is_a?(FileEntry) }
+      entries.select { |_k, v| v.is_a?(FileEntry) }
     end
 
+    # @return [Array<FileEntry | DirEntry>]
+    #
     def recursive_entries
       all_entries = []
 
-      all_entries += entries
-      all_entries += dir_entries.recursive_entries
+      all_entries += entries.values
+      all_entries += dir_entries.flat_map { |_k, v| v.recursive_entries }
 
       all_entries
     end

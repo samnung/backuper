@@ -154,15 +154,15 @@ module Backuper
 
     def copy_entry_to_dest(entry)
       dest_path = destination_path_from(entry.absolute_path)
-      dest_dir = File.dirname(dest_path)
-      src_path = entry.absolute_path
+      dest_dir  = File.dirname(dest_path)
+      src_path  = entry.absolute_path
       FileUtils.mkdir_p(dest_dir)
 
       case entry
       when FileEntry
         puts "Copying file #{src_path}".green
         copy_item(src_path, dest_path)
-          @copied_paths << src_path
+        @copied_paths << src_path
       when DirEntry
         if entry.recursive_ignored_empty?
           puts "Copying directory #{src_path}".green
