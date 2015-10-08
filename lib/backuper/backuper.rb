@@ -176,8 +176,11 @@ module Backuper
           FileOperations.copy_item(src_path, dest_path)
           @copied_paths << src_path
         else
+          sub_entries = entry.recursive_entries
+          return if sub_entries.empty?
+
           puts "Start copying all files in directory #{src_path}".green
-          entry.recursive_entries.each do |sub_entry|
+          sub_entries.each do |sub_entry|
             copy_entry_to_dest(sub_entry)
           end
         end
