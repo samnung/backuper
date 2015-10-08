@@ -37,7 +37,7 @@ module Backuper
     def backup
       FileUtils.mkdir_p(@destination_path)
 
-      dest_contents = dir_entries(@destination_path)
+      dest_contents = FileOperations.dir_entries(@destination_path)
 
       unless dest_contents.empty?
         raise "Can only operate on empty or non-existing directory! Directory #{@destination_path} contains: #{dest_contents}"
@@ -118,7 +118,7 @@ module Backuper
 
       dir = @file_system.add_dir(path)
 
-      dir_entries(path).each do |subitem|
+      FileOperations.dir_entries(path).each do |subitem|
         subitem_abs_path = File.join(path, subitem)
 
         if File.directory?(subitem_abs_path)
@@ -185,17 +185,6 @@ module Backuper
           end
         end
       end
-    end
-
-    # @param path [String] path to folder
-    #
-    # @return [Array<String>]
-    #
-    def dir_entries(path)
-      entries = Dir.entries(path)
-      entries.delete('.')
-      entries.delete('..')
-      entries
     end
 
     # @param source_path [String] path to file/folder

@@ -8,7 +8,6 @@ include Backuper::Constants
 
 module Backuper
   class Restorer
-    include FileOperations
 
     # @return [String]
     #
@@ -29,7 +28,7 @@ module Backuper
       config = ConfigFile.new(backup_config_file_path(@source_path))
 
       # run before procs
-      config.procs[:before_restore].each do |proc|
+      (config.procs[:before_restore] || []).each do |proc|
         instance_eval &proc
       end
 
@@ -38,17 +37,24 @@ module Backuper
         dest = destination_path_from_original(src)
         src = File.join(@source_path, BACKUP_DATA_BASE_PATH, src)
 
-        FileUtils.rmtree(dest) if File.exist?(dest)
+        if File.directory?(dest)
+          FileOperations.dir_entries(src).each do |item|
+            puts "Restoring file to #{File.join(src, item)}".green
+            FileOperations.copy_item(File.join(src, item), File.join(dest, item))
+          end
+        else
+          FileUtils.rmtree(dest) if File.exist?(dest)
 
-        # TODO add some logs about restoring this file
-        copy_item(src, dest)
+          puts "Restoring item to #{dest}".green
+          FileOperations.copy_item(src, dest)
+        end
       end
 
       # restore config file to previous location
-      copy_item(config.path, destination_path_from_original(@info[:orig_config_path]))
+      FileOperations.copy_item(config.path, destination_path_from_original(@info[:orig_config_path]))
 
       # run after procs
-      config.procs[:after_restore].each do |proc|
+      (config.procs[:after_restore] || []).each do |proc|
         instance_eval &proc
       end
     end

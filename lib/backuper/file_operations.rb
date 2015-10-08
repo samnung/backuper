@@ -22,5 +22,18 @@ module Backuper
     end
 
     module_function :copy_item
+
+    # @param path [String] path to folder
+    #
+    # @return [Array<String>]
+    #
+    def dir_entries(path)
+      entries = Dir.entries(path)
+      entries.delete('.')
+      entries.delete('..')
+      entries
+    end
+
+    module_function :dir_entries
   end
 end
