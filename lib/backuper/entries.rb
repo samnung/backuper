@@ -43,7 +43,7 @@ module Backuper
     def recursive_ignored_empty?
       return false unless ignored_entries.empty?
 
-      dir_entries.all? do |entry|
+      dir_entries.all? do |key, entry|
         entry.recursive_ignored_empty?
       end
     end
@@ -66,7 +66,7 @@ module Backuper
       all_entries = []
 
       all_entries += entries.values
-      all_entries += dir_entries.flat_map { |_k, v| v.recursive_entries }
+      all_entries += dir_entries.values.flat_map(&:recursive_entries)
 
       all_entries
     end
