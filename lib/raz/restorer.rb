@@ -39,8 +39,8 @@ module Raz
 
         if File.directory?(dest)
           FileOperations.dir_entries(src).each do |item|
-            puts "Restoring file to #{File.join(src, item)}".green
-            FileOperations.copy_item(File.join(src, item), File.join(dest, item))
+            puts "Restoring file to #{File.join(dest, item)}".green
+            FileOperations.copy_item(File.join(src, item), dest)
           end
         else
           FileUtils.rmtree(dest) if File.exist?(dest)
