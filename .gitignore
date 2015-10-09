@@ -9,3 +9,4 @@
 /tmp/
 spec/testing_dir/backup_destination
 .idea
+fastlane/report.xml
