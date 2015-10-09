@@ -44,6 +44,7 @@ module Raz
           end
         else
           FileUtils.rmtree(dest) if File.exist?(dest)
+          FileUtils.mkdir_p(File.dirname(dest))
 
           puts "Restoring item to #{dest}".green
           FileOperations.copy_item(src, dest)
@@ -51,7 +52,9 @@ module Raz
       end
 
       # restore config file to previous location
-      FileOperations.copy_item(config.path, destination_path_from_original(@info[:orig_config_path]))
+      orig_config_path = destination_path_from_original(@info[:orig_config_path])
+      FileUtils.mkdir_p(File.dirname(orig_config_path))
+      FileOperations.copy_item(config.path, orig_config_path)
 
       # run after procs
       (config.procs[:after_restore] || []).each do |proc|
