@@ -13,7 +13,7 @@ program_desc 'Tool to backup and restore files.'
 
 on_error do |e|
   $stderr.puts "#{e.message}".red
-  $stderr.puts "#{e.backtrace_locations.join("\n")}".red
+  $stderr.puts "  from #{e.backtrace.join("\n  from ")}".red unless e.is_a?(OptionParser::ParseError)
 end
 
 
