@@ -59,6 +59,11 @@ lane :release do |options|
   push_to_git_remote
 
 
+  # Build the gem
+  #
+  sh "rake build"
+
+
   # Preparing GitHub Release
   #
   version_name = "v#{version}"
