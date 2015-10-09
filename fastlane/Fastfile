@@ -58,11 +58,15 @@ lane :release do |options|
   git_pull
   push_to_git_remote
 
+
   # Preparing GitHub Release
   #
-  github_release = get_github_release(url: github_url(tool: tool_name), version: version)
+  version_name = "v#{version}"
+  old_version_name = "v#{old_version}"
+
+  github_release = get_github_release(url: github_url(tool: tool_name), version: version_name)
   if (github_release || {}).fetch('body', '').length == 0
-    `open https://github.com/#{github_url(tool: tool_name)}/compare/#{old_version}...master`
+    `open https://github.com/#{github_url(tool: tool_name)}/compare/#{old_version_name}...master`
 
     title = prompt(text: 'Title: ')
     description = prompt(text: "Please enter a changelog: ",
@@ -70,8 +74,8 @@ lane :release do |options|
 
     github_release = set_github_release(
         repository_name: github_url(tool: tool_name),
-        name: [version, title].join(" "),
-        tag_name: version,
+        name: [version_name, title].join(" "),
+        tag_name: version_name,
         description: description,
         is_draft: false
     )
