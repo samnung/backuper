@@ -45,7 +45,7 @@ module Raz
 
       # run before procs
       (@config.procs[:before_backup] || []).each do |proc|
-        instance_eval &proc
+        instance_eval(&proc)
       end
 
       investigate if @parsed_entries.nil?
@@ -65,7 +65,7 @@ module Raz
 
       # run after procs
       (@config.procs[:after_backup] || []).each do |proc|
-        instance_eval &proc
+        instance_eval(&proc)
       end
     end
 

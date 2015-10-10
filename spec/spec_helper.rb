@@ -8,17 +8,18 @@ def spec_path(path)
   File.expand_path(path, File.dirname(__FILE__))
 end
 
-module FakeFS::FileUtils
-  def mkdir_p_chdir(paths)
-    paths = Array(paths)
+module FakeFS
+  module FileUtils
+    def mkdir_p_chdir(paths)
+      paths = Array(paths)
 
-    paths.each do |path|
-      mkdir_p(path)
+      paths.each do |path|
+        mkdir_p(path)
 
-      Dir.chdir(path) do
-        yield path
+        Dir.chdir(path) do
+          yield path
+        end
       end
     end
   end
 end
-

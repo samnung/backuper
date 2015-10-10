@@ -1,0 +1,53 @@
+
+Style/ClassCheck:
+  EnforcedStyle: is_a?
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+
+Lint/UselessAssignment:
+  Exclude:
+    - 'spec/**/*'
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Style/RaiseArgs:
+  EnforcedStyle: exploded
+
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+# Better too much 'return' than one missing
+Style/RedundantReturn:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 320
+
+Metrics/CyclomaticComplexity:
+  Max: 17
+
+Metrics/LineLength:
+  Max: 150
+
+Metrics/ParameterLists:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 18
+
+
+# Empty spaces inside class body are sometimes nice...
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyLines:
+  Enabled: false
+
+Style/EmptyLinesAroundBlockBody:
+  Exclude:
+  - "spec/**"

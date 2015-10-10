@@ -29,7 +29,7 @@ module Raz
 
       # run before procs
       (config.procs[:before_restore] || []).each do |proc|
-        instance_eval &proc
+        instance_eval(&proc)
       end
 
       # restore all files
@@ -58,7 +58,7 @@ module Raz
 
       # run after procs
       (config.procs[:after_restore] || []).each do |proc|
-        instance_eval &proc
+        instance_eval(&proc)
       end
     end
 
