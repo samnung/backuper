@@ -1,6 +1,6 @@
 # Raz
 
-[![Build Status](https://travis-ci.org/samnung/raz.svg)](https://travis-ci.org/samnung/raz)
+[![Build Status](https://travis-ci.org/samnung/raz.svg)](https://travis-ci.org/samnung/raz) [![Gem Version](https://badge.fury.io/rb/raz.svg)](https://badge.fury.io/rb/raz)
 
 Raz is simple tool to backup all files to some external hard drive and restoring with only four commands.
 
@@ -22,7 +22,7 @@ I hate [mackup](https://github.com/lra/mackup) because of creating links to Drop
 
 I hate [Time Machine](https://en.wikipedia.org/wiki/Time_Machine_(OS_X)) because of backing up all files instead of specific ones (so when you want to reinstall to resolve some problems it doesn't work).
 
-So I've created simple tool but with possibility to be powerfull in near future.
+So I've created simple tool but with possibility to be powerful in near future.
 
 
 ## Configuration file
