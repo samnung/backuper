@@ -75,36 +75,42 @@ module Raz
     #
     def process_item(item)
       @current_item = item
-      @ignored_items = (@config.ignored_paths + @current_item.ignored_paths).map { |p| File.expand_path(p) }
+      @ignored_items = (@config.ignored_paths + @current_item.ignored_paths).uniq.map { |p| File.expand_path(p) }
 
       puts "Processing group #{item.name}"
 
       item.paths.each do |requirement_path|
-        print "  Processing requirement path #{requirement_path} ... "
-
-        abs_path = File.expand_path(requirement_path)
-
-        if File.directory?(abs_path)
-          process_directory(abs_path)
-          puts 'Success'.green
-        elsif File.file?(abs_path)
-          process_file(abs_path)
-          puts 'Success'.green
-        elsif %w(* ? { } [ ]).any? { |sym| abs_path.include?(sym) }
-          found = Dir.glob(abs_path)
-          found.each do |file|
-            process_file(file)
-          end
-
-          puts 'Success'.green unless found.empty?
-          puts 'Noting found'.yellow if found.empty?
-        else
-          puts "Doesn't exist -> skipping".yellow
-        end
+        _process_path(requirement_path)
       end
 
       @ignored_items = nil
       @current_item = nil
+    end
+
+    # @param [String] path
+    #
+    def _process_path(path)
+      print "  Processing requirement path #{path} ... "
+
+      abs_path = File.expand_path(path)
+
+      if File.directory?(abs_path)
+        process_directory(abs_path)
+        puts 'Success'.green
+      elsif File.file?(abs_path)
+        process_file(abs_path)
+        puts 'Success'.green
+      elsif %w(* ? { } [ ]).any? { |sym| abs_path.include?(sym) }
+        found = Dir.glob(abs_path)
+        found.each do |file|
+          process_file(file)
+        end
+
+        puts 'Success'.green unless found.empty?
+        puts 'Nothing found'.yellow if found.empty?
+      else
+        puts "Doesn't exist -> skipping".yellow
+      end
     end
 
     def _ok_path?(path)
@@ -197,9 +203,9 @@ module Raz
 
     def save_info
       info = {
-          env: ENV.to_hash,
-          copied_paths: @copied_paths,
-          orig_config_path: @config.path,
+        env: ENV.to_hash,
+        copied_paths: @copied_paths,
+        orig_config_path: @config.path,
       }
 
       File.write(File.join(@destination_path, BACKUP_INFO_BASE_PATH), info.to_yaml)

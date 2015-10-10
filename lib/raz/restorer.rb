@@ -34,21 +34,7 @@ module Raz
 
       # restore all files
       @info[:copied_paths].each do |src|
-        dest = destination_path_from_original(src)
-        src = File.join(@source_path, BACKUP_DATA_BASE_PATH, src)
-
-        if File.directory?(dest)
-          FileOperations.dir_entries(src).each do |item|
-            puts "Restoring file to #{File.join(dest, item)}".green
-            FileOperations.copy_item(File.join(src, item), dest)
-          end
-        else
-          FileUtils.rmtree(dest) if File.exist?(dest)
-          FileUtils.mkdir_p(File.dirname(dest))
-
-          puts "Restoring item to #{dest}".green
-          FileOperations.copy_item(src, dest)
-        end
+        process_path(src)
       end
 
       # restore config file to previous location
@@ -63,6 +49,26 @@ module Raz
     end
 
     private
+
+    # @param [String] path
+    #
+    def process_path(path)
+      dest = destination_path_from_original(path)
+      path = File.join(@source_path, BACKUP_DATA_BASE_PATH, path)
+
+      if File.directory?(dest)
+        FileOperations.dir_entries(path).each do |item|
+          puts "Restoring file to #{File.join(dest, item)}".green
+          FileOperations.copy_item(File.join(path, item), dest)
+        end
+      else
+        FileUtils.rmtree(dest) if File.exist?(dest)
+        FileUtils.mkdir_p(File.dirname(dest))
+
+        puts "Restoring item to #{dest}".green
+        FileOperations.copy_item(path, dest)
+      end
+    end
 
     # @param path [String]
     #

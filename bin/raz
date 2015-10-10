@@ -31,8 +31,8 @@ command :backup do |c|
     help_now! 'Specify at least one destination path' if args.size == 0
     help_now! 'Specify only one destination path' if args.size > 1
 
-    config_path = Raz::config_path
-    help_now! "Missing configuration file at #{Raz::config_path}" unless File.file?(config_path)
+    config_path = Raz.config_path
+    help_now! "Missing configuration file at #{config_path}" unless File.file?(config_path)
 
     backuper = Raz::Backuper.new(Raz::ConfigFile.new(config_path), args.first)
     backuper.backup

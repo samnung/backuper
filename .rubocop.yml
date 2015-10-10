@@ -28,6 +28,9 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 17
 
+Metrics/MethodLength:
+  Max: 30
+
 Metrics/LineLength:
   Max: 150
 
@@ -36,6 +39,10 @@ Metrics/ParameterLists:
 
 Metrics/PerceivedComplexity:
   Max: 18
+
+Metrics/AbcSize:
+  Max: 25
+
 
 
 # Empty spaces inside class body are sometimes nice...
@@ -50,4 +57,18 @@ Style/EmptyLines:
 
 Style/EmptyLinesAroundBlockBody:
   Exclude:
-  - "spec/**"
+  - "spec/**/*"
+
+Style/TrailingComma:
+  EnforcedStyleForMultiline: comma
+
+Style/PredicateName:
+  Exclude:
+  - "fastlane/**/*"
+
+Style/StringLiterals:
+  Exclude:
+  - "fastlane/**/*"
+
+Style/SignalException:
+  Enabled: false

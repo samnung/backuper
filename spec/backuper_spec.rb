@@ -16,9 +16,9 @@ module Raz
 
         FileOperations.copy_item(old, new)
 
-        at_exit {
+        at_exit do
           FileUtils.rm(new)
-        }
+        end
 
         expect(File::Stat.new(old)).to eq File::Stat.new(new)
       end
