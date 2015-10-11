@@ -1,6 +1,6 @@
 # Raz
 
-[![Build Status](https://travis-ci.org/samnung/raz.svg)](https://travis-ci.org/samnung/raz) [![Gem Version](https://badge.fury.io/rb/raz.svg)](https://badge.fury.io/rb/raz)
+[![Build Status](https://travis-ci.org/samnung/raz.svg)](https://travis-ci.org/samnung/raz) [![Gem Version](https://badge.fury.io/rb/raz.svg)](https://badge.fury.io/rb/raz) [![Inline docs](http://inch-ci.org/github/samnung/raz.svg?branch=master)](http://inch-ci.org/github/samnung/raz)
 
 Raz is simple tool to backup all files to some external hard drive and restoring with only four commands.
 
