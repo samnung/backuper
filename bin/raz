@@ -1,33 +1,38 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 lib = File.expand_path('../lib', File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'raz'
-require 'gli'
+require 'commander/import'
 
-include GLI::App
-
-program_desc 'Tool to backup and restore files.'
-version Raz::VERSION
-
-
-on_error do |e|
-  $stderr.puts "#{e.message}".red
-  $stderr.puts "  from #{e.backtrace.join("\n  from ")}".red unless e.is_a?(OptionParser::ParseError)
+module Commander
+  module UI
+    def enable_paging
+      # to suppress paging for help output
+    end
+    def self.enable_paging
+      # to suppress paging for help output
+    end
+  end
 end
 
 
+
+program :version, Raz::VERSION
+program :description, 'Tool to make reinstalling system much easier'
+program :help, 'Author', 'Roman Kříž <roman@kriz.io>'
+program :help, 'GitHub', 'https://github.com/samnung/raz'
+program :help_formatter, :compact
+
 # ----------------------- backup -----------------------------------
 
-desc 'Backup all files to destination folder'
-arg :destination_path
-
 command :backup do |c|
-  # c.desc 'Path to configuration file'
-  # c.flag :c, :conf
+  c.syntax = 'raz backup <backup-path>'
+  c.description = 'Backup all files to destination folder'
 
-  c.action do |global_options, options, args|
+  c.action do |args, options|
     help_now! 'Specify at least one destination path' if args.size == 0
     help_now! 'Specify only one destination path' if args.size > 1
 
@@ -39,16 +44,13 @@ command :backup do |c|
   end
 end
 
-
-
-
 # ----------------------- restore -----------------------------------
 
-desc 'Restore all files from source folder'
-arg :source_path
-
 command :restore do |c|
-  c.action do |global_options, options, args|
+  c.syntax = 'raz restore <backup-path>'
+  c.description = 'Restore all files from source folder'
+
+  c.action do |args, options|
     help_now! 'Specify at least one source path' if args.size == 0
     help_now! 'Specify only one source path' if args.size > 1
 
@@ -57,8 +59,4 @@ command :restore do |c|
   end
 end
 
-
-
-# ---------------------------------------------------------
-
-exit run(ARGV)
+default_command :help
